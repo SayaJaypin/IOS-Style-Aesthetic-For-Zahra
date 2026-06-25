@@ -1,0 +1,682 @@
+/* ==========================================================================
+   Variables & Reset
+   ========================================================================== */
+:root {
+    /* Main Palette */
+    --c-mint: #E0F2F1;
+    --c-blue: #E3F2FD;
+    --c-pink: #FCE4EC;
+    --c-white: #FFFFFF;
+    --c-black: #1A1A1A;
+    
+    /* Supporting */
+    --c-rose: #F8BBD0;
+    --c-frost: #BBDEFB;
+    --c-pearl: #F5F5F7;
+    --c-lavender: #E1BEE7;
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    
+    /* Typography */
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--c-pearl);
+    color: var(--c-black);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Glassmorphism Utilities
+   ========================================================================== */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-panel {
+    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 32px;
+    border: 1px solid rgba(255,255,255,0.8);
+    padding: 40px;
+    margin: 40px auto;
+    max-width: 900px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   Lock Screen
+   ========================================================================== */
+#lock-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: linear-gradient(135deg, var(--c-mint), var(--c-pink));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 1.5s;
+}
+
+.lock-content {
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
+
+.lock-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.lock-subtitle {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.pin-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    height: 20px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid var(--c-black);
+    transition: all 0.3s ease;
+}
+
+.dot.filled {
+    background-color: var(--c-black);
+}
+
+.pin-message {
+    height: 20px;
+    font-size: 0.85rem;
+    color: #D32F2F;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.key {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--c-black);
+    cursor: pointer;
+    border: none;
+    transition: transform 0.1s, background 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key:active {
+    transform: scale(0.9);
+    background: rgba(255,255,255,0.8);
+}
+
+.key.clear, .key.delete {
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Background World & Particles
+   ========================================================================== */
+#particle-canvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    opacity: 0.6;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ==========================================================================
+   Music Player
+   ========================================================================== */
+#music-player {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 280px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#music-player:hover {
+    transform: scale(1.02) translateY(-5px);
+}
+
+.vinyl-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #111;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.vinyl {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #333;
+}
+
+.playing .vinyl-container {
+    animation: spin 4s linear infinite;
+}
+
+.player-controls {
+    flex: 1;
+}
+
+.song-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: var(--c-black);
+    transition: width 0.1s linear;
+}
+
+#play-pause-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--c-black);
+}
+
+/* ==========================================================================
+   Hero Section & 3D Initials
+   ========================================================================== */
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 4px;
+    color: var(--c-black);
+    margin-bottom: 20px;
+    z-index: 10;
+    position: relative;
+}
+
+.hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: #444;
+    max-width: 600px;
+    line-height: 1.6;
+    z-index: 10;
+    position: relative;
+}
+
+#initials-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.initial-letter {
+    position: absolute;
+    width: clamp(80px, 15vw, 200px);
+    opacity: 0.8;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
+}
+
+/* Arrange default positions before JS parallax */
+.initial-letter:nth-child(1) { top: 15%; left: 10%; transform: rotate(-15deg); }
+.initial-letter:nth-child(2) { top: 60%; left: 20%; transform: rotate(10deg); }
+.initial-letter:nth-child(3) { top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(5deg); width: clamp(100px, 20vw, 250px); opacity: 0.9;}
+.initial-letter:nth-child(4) { top: 20%; right: 20%; transform: rotate(-20deg); }
+.initial-letter:nth-child(5) { top: 65%; right: 15%; transform: rotate(15deg); }
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+}
+
+/* ==========================================================================
+   Scrapbook Chapters
+   ========================================================================== */
+.scrapbook-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px;
+}
+
+.chapter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80vh;
+    margin-bottom: 100px;
+    position: relative;
+    gap: 40px;
+}
+
+.chapter.reverse {
+    flex-direction: row-reverse;
+}
+
+.chapter-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.chapter-num {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: #888;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.chapter-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--c-black);
+}
+
+.chapter-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+/* Polaroid Styles */
+.photo-container {
+    flex: 1;
+    max-width: 450px;
+    background: #fff;
+    padding: 15px 15px 60px 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    position: relative;
+    border-radius: 2px;
+}
+
+.photo-container img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: #eee;
+}
+
+.caption {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Indie Flower', cursive, sans-serif; /* Fallback to handwriting feel */
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Tape Effects */
+.tape-top::before, .tape-bottom::before, .tape-top-left::before {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+    width: 120px;
+    height: 35px;
+    z-index: 2;
+}
+
+.tape-top::before { top: -15px; left: 50%; transform: translateX(-50%) rotate(-2deg); }
+.tape-bottom::before { bottom: -15px; left: 50%; transform: translateX(-50%) rotate(3deg); }
+.tape-top-left::before { top: -15px; left: -15px; transform: rotate(-45deg); }
+
+.tilted-left { transform: rotate(-4deg); }
+.tilted-right { transform: rotate(3deg); }
+
+/* Objects */
+.floating-obj {
+    position: absolute;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
+    animation: floatObj 6s ease-in-out infinite;
+}
+
+.fluffy { width: 120px; right: -50px; bottom: -50px; }
+.camera-obj { width: 100px; display: block; margin: 0 auto 20px; }
+.disco-obj { width: 120px; display: block; margin: 0 auto 20px; }
+
+/* ==========================================================================
+   Sections (Camera, Gift, Wish)
+   ========================================================================== */
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.elegant-text {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-style: italic;
+}
+
+/* Camera Gallery */
+.gallery-reveal {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+/* Gift Box */
+#gift-section {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.gift-box {
+    width: 150px;
+    height: 120px;
+    background: var(--c-rose);
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.gift-box:hover {
+    transform: scale(1.05);
+}
+
+.box-lid {
+    position: absolute;
+    top: -20px; left: -10px;
+    width: 170px; height: 40px;
+    background: var(--c-pink);
+    border-radius: 5px;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: top right;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    z-index: 2;
+}
+
+.box-lid::after {
+    content: ''; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 100%;
+    background: var(--c-white);
+}
+
+.gift-box.opened .box-lid {
+    transform: rotate(110deg) translate(20px, -20px);
+}
+
+.gift-content {
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.5s 0.3s, top 0.8s 0.3s ease-out;
+}
+
+.gift-box.opened .gift-content {
+    opacity: 1;
+    top: -80px;
+}
+
+.gift-message {
+    margin-top: 60px;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: #444;
+    animation: fadeIn 1s ease 1s forwards;
+    opacity: 0;
+}
+
+/* Buttons */
+.premium-btn {
+    background: var(--c-black);
+    color: var(--c-white);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+    font-family: var(--font-sans);
+}
+
+.premium-btn:hover {
+    background: #333;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+#wish-response { margin-top: 30px; }
+
+/* ==========================================================================
+   Love Game
+   ========================================================================== */
+#game-section {
+    padding: 100px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.score-display {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+#game-board {
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.game-heart {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.game-heart:hover { transform: scale(1.1); }
+.game-heart.healthy { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FF4B4B"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'); }
+.game-heart.cracked { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23777"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/><path d="M12 4L9 9l3 2-2 4 4-2-1 5" stroke="%23fff" stroke-width="1.5" fill="none"/></svg>'); }
+
+.game-modal {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; max-width: 400px;
+    padding: 40px;
+    text-align: center;
+    z-index: 10;
+}
+
+.game-modal p {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+/* ==========================================================================
+   Final Chapter
+   ========================================================================== */
+#final-chapter {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--c-black);
+    color: var(--c-white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.final-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.final-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 8px;
+    margin-bottom: 30px;
+    opacity: 0;
+}
+
+.final-text {
+    font-size: 1.2rem;
+    line-height: 2;
+    font-weight: 300;
+    opacity: 0;
+}
+
+/* Sakura Storm Animation */
+.sakura-storm {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   Keyframes & Responsive
+   ========================================================================== */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes floatObj { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
+
+@media (max-width: 768px) {
+    .chapter, .chapter.reverse { flex-direction: column; text-align: center; }
+    .chapter-text { font-size: 1rem; }
+    .photo-container { margin-bottom: 30px; width: 90%; }
+    #music-player { width: 220px; bottom: 20px; right: 20px; }
+}

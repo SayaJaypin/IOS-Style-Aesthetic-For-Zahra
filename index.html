@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LOVEU MORE, ZAHRA</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP for Smooth Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <!-- Lock Screen Section -->
+    <section id="lock-screen">
+        <div class="lock-content">
+            <h1 class="lock-title">LOVEU MORE, ZAHRA</h1>
+            <p class="lock-subtitle">Masukkan tanggal yang memulai segalanya</p>
+            
+            <div class="pin-display">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            
+            <p id="pin-message" class="pin-message"></p>
+
+            <div class="keypad">
+                <button class="key glass" data-num="1">1</button>
+                <button class="key glass" data-num="2">2</button>
+                <button class="key glass" data-num="3">3</button>
+                <button class="key glass" data-num="4">4</button>
+                <button class="key glass" data-num="5">5</button>
+                <button class="key glass" data-num="6">6</button>
+                <button class="key glass" data-num="7">7</button>
+                <button class="key glass" data-num="8">8</button>
+                <button class="key glass" data-num="9">9</button>
+                <button class="key glass clear" data-action="clear">C</button>
+                <button class="key glass" data-num="0">0</button>
+                <button class="key glass delete" data-action="delete">⌫</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Experience (Hidden initially) -->
+    <main id="main-experience" class="hidden">
+        
+        <!-- Background Decor -->
+        <div id="particle-canvas"></div>
+
+        <!-- Floating Music Player -->
+        <div id="music-player" class="glass">
+            <img src="assets/objects/spotify.png" alt="Spotify" class="player-icon" onerror="this.style.display='none'">
+            <div class="vinyl-container">
+                <div class="vinyl"></div>
+            </div>
+            <div class="player-controls">
+                <p class="song-title">Melodi Untuk Zahra</p>
+                <div class="progress-bar"><div class="progress"></div></div>
+                <button id="play-pause-btn">▶</button>
+            </div>
+            <audio id="bg-music" src="assets/music/song.mp3" loop></audio>
+        </div>
+
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">LOVEU MORE, ZAHRA</h1>
+                <p class="hero-subtitle">"Beberapa hal tidak pernah benar-benar pergi.<br>Mereka hanya berubah menjadi kenangan yang terus tinggal."</p>
+            </div>
+            
+            <!-- 3D Initials Parallax -->
+            <div id="initials-container">
+                <img src="assets/initials/z.png" class="initial-letter" data-speed="2" alt="Z">
+                <img src="assets/initials/a.png" class="initial-letter" data-speed="-1" alt="A">
+                <img src="assets/initials/h.png" class="initial-letter" data-speed="1.5" alt="H">
+                <img src="assets/initials/r.png" class="initial-letter" data-speed="-2" alt="R">
+                <img src="assets/initials/a2.png" class="initial-letter" data-speed="1" alt="A">
+            </div>
+            
+            <div class="scroll-indicator">Gulir Perlahan</div>
+        </section>
+
+        <!-- Scrapbook Chapters -->
+        <div class="scrapbook-wrapper">
+            
+            <!-- Chapter 1 -->
+            <section class="chapter" id="bab-1">
+                <div class="chapter-content">
+                    <span class="chapter-num">BAB 1</span>
+                    <h2 class="chapter-title">Ruang Tanpa Suara</h2>
+                    <p class="chapter-text">"Ada keheningan yang nyaman ketika dunia terlalu bising, dan keheningan itu kutemukan di antara spasi senyummu. Seperti halaman pertama dari sebuah buku klasik, kau mengundangku masuk tanpa perlu berteriak."</p>
+                </div>
+                <div class="photo-container polaroid tape-top">
+                    <img src="assets/photos/photo1.jpg" alt="Memory 1">
+                    <p class="caption">Hari di mana semuanya dimulai.</p>
+                </div>
+            </section>
+
+            <!-- Chapter 2 -->
+            <section class="chapter reverse" id="bab-2">
+                <div class="photo-container polaroid tape-bottom tilted-right">
+                    <img src="assets/photos/photo2.jpg" alt="Memory 2">
+                    <p class="caption">Jejak tawa yang tertinggal.</p>
+                </div>
+                <div class="chapter-content">
+                    <span class="chapter-num">BAB 2</span>
+                    <h2 class="chapter-title">Waktu Yang Berhenti</h2>
+                    <p class="chapter-text">"Waktu mungkin terus bergerak, tetapi ada hal-hal yang memilih tinggal lebih lama daripada yang kita sadari. Setiap detik bersamamu adalah fragmen keabadian yang kusimpan rapat-rapat dalam saku ingatanku."</p>
+                </div>
+            </section>
+
+            <!-- Chapter 3 -->
+            <section class="chapter" id="bab-3">
+                <div class="chapter-content">
+                    <span class="chapter-num">BAB 3</span>
+                    <h2 class="chapter-title">Kepingan Semesta</h2>
+                    <p class="chapter-text">"Mungkin semesta punya cara sendiri untuk merangkai cerita. Menempatkan kepingan takdir di waktu yang tepat, di tempat yang semestinya. Kau adalah kebetulan paling indah yang pernah dirancang oleh langit."</p>
+                </div>
+                <div class="photo-container polaroid tape-top-left">
+                    <img src="assets/photos/photo3.jpg" alt="Memory 3">
+                    <p class="caption">Sederhana, namun berarti.</p>
+                </div>
+                <img src="assets/objects/fluffy.png" class="floating-obj fluffy" alt="Fluffy" onerror="this.style.display='none'">
+            </section>
+
+            <!-- Camera Memories Section -->
+            <section id="camera-section" class="glass-panel">
+                <img src="assets/objects/camera.png" class="camera-obj" alt="Camera" onerror="this.style.display='none'">
+                <h2 class="section-title">Momen Yang Tetap Tinggal</h2>
+                <p class="elegant-text">"Banyak hal datang dan pergi tanpa meninggalkan jejak. Namun ada beberapa orang yang diam-diam menetap dan menjadikan setiap hari terasa sedikit lebih berarti."</p>
+                
+                <div class="gallery-reveal">
+                    <div class="photo-container polaroid tilted-left">
+                        <img src="assets/photos/photo4.jpg" alt="Memory 4">
+                    </div>
+                    <div class="photo-container polaroid tilted-right">
+                        <img src="assets/photos/photo5.jpg" alt="Memory 5">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flower & Ring Gift Section -->
+            <section id="gift-section">
+                <h2 class="section-title">Sebuah Tanda</h2>
+                <p class="elegant-text">Sentuh kotak ini untuk membuka sesuatu yang istimewa.</p>
+                <div class="gift-box" id="gift-box">
+                    <div class="box-lid"></div>
+                    <div class="box-body"></div>
+                    <div class="gift-content hidden">
+                        <div class="bouquet">🌸</div>
+                        <div class="ring">💍</div>
+                    </div>
+                </div>
+                <div class="gift-message hidden" id="gift-message">
+                    "Tidak semua hal bisa diutarakan dengan kata. Terkadang, ia hadir dalam bentuk presensi, komitmen, dan keikhlasan untuk selalu ada."
+                </div>
+            </section>
+
+            <!-- Make A Wish -->
+            <section id="wish-section" class="glass-panel">
+                <img src="assets/objects/disco.png" class="disco-obj" alt="Disco Ball" onerror="this.style.display='none'">
+                <h2 class="section-title">Harapan di Bawah Bintang</h2>
+                <button id="btn-wish" class="premium-btn">Buat Sebuah Harapan</button>
+                <div id="wish-response" class="hidden">
+                    <p class="elegant-text">"Semoga semesta senantiasa berpihak pada hal-hal baik yang kamu doakan hari ini, esok, dan selamanya."</p>
+                </div>
+            </section>
+
+            <!-- Love Game -->
+            <section id="game-section">
+                <div class="game-header">
+                    <h2 class="section-title">Keping Yang Tepat</h2>
+                    <p class="elegant-text">Kumpulkan 7 keping hati yang utuh. Hindari keping yang retak.</p>
+                    <p class="score-display">Terkumpul: <span id="game-score">0</span> / 7</p>
+                </div>
+                <div id="game-board" class="glass">
+                    <!-- Hearts will be spawned here by JS -->
+                </div>
+                
+                <!-- Game Modals -->
+                <div id="game-fail" class="game-modal hidden glass">
+                    <p>"Belum kali ini. Ada hal-hal yang memang pantas diperjuangkan sekali lagi."</p>
+                    <button id="btn-retry" class="premium-btn">Coba Lagi</button>
+                </div>
+                <div id="game-success" class="game-modal hidden glass">
+                    <p>"Kamu berhasil menemukan setiap keping yang penting."</p>
+                    <button id="btn-unlock-final" class="premium-btn">Buka Lembar Terakhir</button>
+                </div>
+            </section>
+
+            <!-- Final Chapter (Locked initially) -->
+            <section id="final-chapter" class="hidden">
+                <div class="final-content">
+                    <h1 class="final-title">TERIMA KASIH, ZAHRA</h1>
+                    <p class="final-text">
+                        "Jika ingatan adalah sebuah buku, maka bab tentangmu adalah halaman yang paling sering kubuka.<br><br>
+                        Bukan karena aku takut lupa, melainkan karena di sanalah aku menemukan pulang.<br>
+                        Teruslah bersinar, dengan caramu yang paling jujur dan utuh."
+                    </p>
+                    <div class="sakura-storm"></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
